@@ -1,0 +1,13 @@
+task,model,max_new_tokens,cap_hits,n,mal_frozen,quality_frozen
+TF_Mid,gemma2_9b_it,128,0,40,0.0,0.0
+TF_Mid,llama31_8b_instruct,128,34,40,0.825,0.0
+TF_Mid,mistral_7b_instruct,128,1,40,0.025,0.025
+TF_Mid,qwen25_7b_instruct,128,0,40,0.025,0.1
+TF_Reason,gemma2_9b_it,256,0,40,0.0,0.2192
+TF_Reason,llama31_8b_instruct,256,9,40,0.7,0.1073
+TF_Reason,mistral_7b_instruct,256,5,40,0.275,0.243
+TF_Reason,qwen25_7b_instruct,256,0,40,0.0,0.2281
+TF_Surface,gemma2_9b_it,128,0,40,0.0,0.7
+TF_Surface,llama31_8b_instruct,128,0,40,0.0,0.725
+TF_Surface,mistral_7b_instruct,128,0,40,0.0,0.5
+TF_Surface,qwen25_7b_instruct,128,0,40,0.0,0.65

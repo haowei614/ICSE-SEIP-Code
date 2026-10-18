@@ -1,0 +1,13 @@
+constraint_type,re_task,hardware_budget,operating_region_exists,resource_feasible,dominant_mechanism,silent_failure_probability,requirements_severity,deployment_risk,deployment_class,notes
+contractual_nda,TF_Surface,low,,,,,,,,
+contractual_nda,TF_Mid,medium,,,,,,,,
+contractual_nda,TF_Reason,high,,,,,,,,
+data_residency,TF_Surface,low,,,,,,,,
+data_residency,TF_Mid,medium,,,,,,,,
+data_residency,TF_Reason,high,,,,,,,,
+air_gapped_edge,TF_Surface,low,,,,,,,,
+air_gapped_edge,TF_Mid,medium,,,,,,,,
+air_gapped_edge,TF_Reason,high,,,,,,,,
+cost_at_scale,TF_Surface,low,,,,,,,,
+cost_at_scale,TF_Mid,medium,,,,,,,,
+cost_at_scale,TF_Reason,high,,,,,,,,

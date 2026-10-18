@@ -1,0 +1,51 @@
+# Hardware envelope for the lab CUDA server (aisin-repair StatefulSet).
+# Detected 2026-09-05 on pod aisin-repair-0 / node rke2-w2.
+#
+# IMPORTANT: store code + results under the PVC mount `/aisin-repair/...`.
+# Container overlay (`/root`, `/workspace`) is wiped when the pod is recreated.
+
+profile_id: rtx4090_aisin_repair
+detected_on: "2026-09-05"
+
+machine:
+  cluster: rancher/rke2 (lab)
+  pod: aisin-repair-0
+  namespace: aisin
+  node: rke2-w2
+  # Admin heads-up (2026-09): MLE-2 host OOM shutdowns — confirm if rke2-w2 == MLE-2
+
+compute:
+  gpu_model: "NVIDIA GeForce RTX 4090"
+  gpu_vram_gb: 24
+  cuda: true
+  accelerator: cuda
+  # Pod resource requests/limits (from STS; host may differ)
+  pod_memory_limit_mi: 64000
+  pod_cpu_limit: 10
+
+runtime:
+  python: "3.10.13"          # /opt/conda
+  torch: "2.1.2+cu"
+  transformers: "4.19.2"
+  llama_cpp_python: null     # OPEN: install with GGML_CUDA if using GGUF ladder
+  llama_cpp_commit: null
+
+inference_path: llama_cpp_cuda   # preferred for Q4/Q6/Q8; transformers OK for FP16 smoke
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 32768               # prior successful F16 smoke used 32k; watch VRAM
+  n_batch: 512
+  practical_vram_ceiling_gb: 22   # leave headroom on 24 GB card
+
+storage:
+  persistent_root: /aisin-repair/APSEC-My
+  results_dir: /aisin-repair/APSEC-My/replication/results/pilot_server
+  # Models: PVC only has ~12G free — prefer overlay cache OR external volume;
+  # re-download after pod rebuild if not on PVC.
+  models_dir: /aisin-repair/APSEC-My/models
+  ephemeral_warning: true
+
+peak_memory_method:
+  transformers_cuda: "torch.cuda.max_memory_allocated()"
+  llama_cpp_cuda: "torch.cuda.max_memory_allocated() and/or process RSS"

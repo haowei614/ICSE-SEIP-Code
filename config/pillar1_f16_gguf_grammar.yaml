@@ -1,0 +1,52 @@
+# Same as pillar1_f16_gguf_aligned.yaml but with llama.cpp GBNF JSON grammar on.
+# Compare Mid/Reason malformed rates: aligned vs aligned+grammar.
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_f16_gguf_grammar
+
+models:
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    hf: /workspace/models/Qwen2.5-7B-Instruct
+    hf_id: Qwen/Qwen2.5-7B-Instruct
+    gguf_by_precision:
+      F16: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-f16.gguf
+    highest_feasible_precision: F16
+
+quantization: []
+reference_precision: F16
+
+tasks:
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour
+    long_context: true
+  - id: TF_Mid
+    name: anaphoric_span_detection
+    kind: span_detection
+    dataset: damir_pure
+    long_context: false
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: true
+  enable_thinking: false
+  use_grammar: true
+  seed: 20260905
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 8192
+  n_batch: 512
+
+run_order: [TF_Reason, TF_Mid]

@@ -1,0 +1,2 @@
+case_id,task_id,model_id,quant,item_id,primary_code,secondary_codes,visibility,quality_attribute,rationale,quote_span,coder
+EX-0001,TF_Reason,,,,,,,,,,coderA

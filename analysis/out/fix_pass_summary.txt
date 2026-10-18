@@ -1,0 +1,73 @@
+== cloud old ==
+{'task': 'TF_Mid', 'quality': 0.5, 'mal': 0.15, 'q_ok': 0.5294}
+{'task': 'TF_Reason', 'quality': 0.3946, 'mal': 0.15, 'q_ok': 0.4643}
+{'task': 'TF_Surface', 'quality': 0.725, 'mal': 0.0, 'q_ok': 0.725}
+== cloud new ==
+{'task': 'TF_Mid', 'quality': 0.45, 'mal': 0.125, 'q_ok': 0.5143, 'n': 40}
+{'task': 'TF_Reason', 'quality': 0.3946, 'mal': 0.15, 'q_ok': 0.4643, 'n': 40}
+{'task': 'TF_Surface', 'quality': 0.725, 'mal': 0.0, 'q_ok': 0.725, 'n': 40}
+== ladder ==
+{'task': 'TF_Surface', 'precision': 'FP16', 'quality': 0.6437, 'mal': 0.0, 'q_ok': 0.6437}
+{'task': 'TF_Surface', 'precision': 'F16', 'quality': 0.6438, 'mal': 0.0, 'q_ok': 0.6438}
+{'task': 'TF_Surface', 'precision': 'Q8_0', 'quality': 0.6375, 'mal': 0.0, 'q_ok': 0.6375}
+{'task': 'TF_Surface', 'precision': 'Q6_K', 'quality': 0.6375, 'mal': 0.0, 'q_ok': 0.6375}
+{'task': 'TF_Surface', 'precision': 'Q4_K_M', 'quality': 0.6438, 'mal': 0.0, 'q_ok': 0.6438}
+{'task': 'TF_Mid', 'precision': 'FP16', 'quality': 0.0312, 'mal': 0.2188, 'q_ok': 0.0321}
+{'task': 'TF_Mid', 'precision': 'F16', 'quality': 0.0312, 'mal': 0.0188, 'q_ok': 0.0322}
+{'task': 'TF_Mid', 'precision': 'Q8_0', 'quality': 0.0312, 'mal': 0.0188, 'q_ok': 0.0322}
+{'task': 'TF_Mid', 'precision': 'Q6_K', 'quality': 0.025, 'mal': 0.025, 'q_ok': 0.0256}
+{'task': 'TF_Mid', 'precision': 'Q4_K_M', 'quality': 0.0375, 'mal': 0.0, 'q_ok': 0.0375}
+{'task': 'TF_Reason', 'precision': 'FP16', 'quality': 0.1994, 'mal': 0.2437, 'q_ok': 0.285}
+{'task': 'TF_Reason', 'precision': 'F16', 'quality': 0.2345, 'mal': 0.15, 'q_ok': 0.2852}
+{'task': 'TF_Reason', 'precision': 'Q8_0', 'quality': 0.2503, 'mal': 0.1187, 'q_ok': 0.2956}
+{'task': 'TF_Reason', 'precision': 'Q6_K', 'quality': 0.2554, 'mal': 0.0625, 'q_ok': 0.2744}
+{'task': 'TF_Reason', 'precision': 'Q4_K_M', 'quality': 0.2388, 'mal': 0.1187, 'q_ok': 0.2738}
+== retention (selected) ==
+{'task': 'TF_Surface', 'contrast': 'FP16_vs_F16_quality', 'ref': 0.6437, 'cmp': 0.6438, 'retention': 1.0}
+{'task': 'TF_Surface', 'contrast': 'F16_vs_Q8_0_quality', 'ref': 0.6438, 'cmp': 0.6375, 'retention': 0.9903}
+{'task': 'TF_Surface', 'contrast': 'F16_vs_Q8_0_q_ok', 'ref': 0.6438, 'cmp': 0.6375, 'retention': 0.9903}
+{'task': 'TF_Surface', 'contrast': 'F16_vs_Q6_K_quality', 'ref': 0.6438, 'cmp': 0.6375, 'retention': 0.9903}
+{'task': 'TF_Surface', 'contrast': 'F16_vs_Q6_K_q_ok', 'ref': 0.6438, 'cmp': 0.6375, 'retention': 0.9903}
+{'task': 'TF_Surface', 'contrast': 'F16_vs_Q4_K_M_quality', 'ref': 0.6438, 'cmp': 0.6438, 'retention': 1.0}
+{'task': 'TF_Surface', 'contrast': 'F16_vs_Q4_K_M_q_ok', 'ref': 0.6438, 'cmp': 0.6438, 'retention': 1.0}
+{'task': 'TF_Mid', 'contrast': 'FP16_vs_F16_quality', 'ref': 0.0312, 'cmp': 0.0312, 'retention': 1.0}
+{'task': 'TF_Mid', 'contrast': 'F16_vs_Q8_0_quality', 'ref': 0.0312, 'cmp': 0.0312, 'retention': 1.0}
+{'task': 'TF_Mid', 'contrast': 'F16_vs_Q8_0_q_ok', 'ref': 0.0322, 'cmp': 0.0322, 'retention': 1.0}
+{'task': 'TF_Mid', 'contrast': 'F16_vs_Q6_K_quality', 'ref': 0.0312, 'cmp': 0.025, 'retention': 0.8}
+{'task': 'TF_Mid', 'contrast': 'F16_vs_Q6_K_q_ok', 'ref': 0.0322, 'cmp': 0.0256, 'retention': 0.7958}
+{'task': 'TF_Mid', 'contrast': 'F16_vs_Q4_K_M_quality', 'ref': 0.0312, 'cmp': 0.0375, 'retention': 1.2}
+{'task': 'TF_Mid', 'contrast': 'F16_vs_Q4_K_M_q_ok', 'ref': 0.0322, 'cmp': 0.0375, 'retention': 1.1639}
+{'task': 'TF_Reason', 'contrast': 'FP16_vs_F16_quality', 'ref': 0.1994, 'cmp': 0.2345, 'retention': 1.1763}
+{'task': 'TF_Reason', 'contrast': 'F16_vs_Q8_0_quality', 'ref': 0.2345, 'cmp': 0.2503, 'retention': 1.0675}
+{'task': 'TF_Reason', 'contrast': 'F16_vs_Q8_0_q_ok', 'ref': 0.2852, 'cmp': 0.2956, 'retention': 1.0362}
+{'task': 'TF_Reason', 'contrast': 'F16_vs_Q6_K_quality', 'ref': 0.2345, 'cmp': 0.2554, 'retention': 1.0891}
+{'task': 'TF_Reason', 'contrast': 'F16_vs_Q6_K_q_ok', 'ref': 0.2852, 'cmp': 0.2744, 'retention': 0.962}
+{'task': 'TF_Reason', 'contrast': 'F16_vs_Q4_K_M_quality', 'ref': 0.2345, 'cmp': 0.2388, 'retention': 1.0182}
+{'task': 'TF_Reason', 'contrast': 'F16_vs_Q4_K_M_q_ok', 'ref': 0.2852, 'cmp': 0.2738, 'retention': 0.9601}
+== paired MACRO ==
+{'task': 'TF_Surface', 'model': 'MACRO', 'contrast': 'F16-Q8_0', 'mean_diff': 0.0063, 'ci_lo': 0.0, 'ci_hi': 0.0187, 'ci_includes_0': True}
+{'task': 'TF_Surface', 'model': 'MACRO', 'contrast': 'F16-Q6_K', 'mean_diff': 0.0063, 'ci_lo': -0.0125, 'ci_hi': 0.0312, 'ci_includes_0': True}
+{'task': 'TF_Surface', 'model': 'MACRO', 'contrast': 'F16-Q4_K_M', 'mean_diff': 0.0, 'ci_lo': -0.025, 'ci_hi': 0.025, 'ci_includes_0': True}
+{'task': 'TF_Mid', 'model': 'MACRO', 'contrast': 'F16-Q8_0', 'mean_diff': 0.0, 'ci_lo': 0.0, 'ci_hi': 0.0, 'ci_includes_0': True}
+{'task': 'TF_Mid', 'model': 'MACRO', 'contrast': 'F16-Q6_K', 'mean_diff': 0.0063, 'ci_lo': 0.0, 'ci_hi': 0.0187, 'ci_includes_0': True}
+{'task': 'TF_Mid', 'model': 'MACRO', 'contrast': 'F16-Q4_K_M', 'mean_diff': -0.0063, 'ci_lo': -0.025, 'ci_hi': 0.0125, 'ci_includes_0': True}
+{'task': 'TF_Reason', 'model': 'MACRO', 'contrast': 'F16-Q8_0', 'mean_diff': -0.0158, 'ci_lo': -0.0338, 'ci_hi': 0.0014, 'ci_includes_0': True}
+{'task': 'TF_Reason', 'model': 'MACRO', 'contrast': 'F16-Q6_K', 'mean_diff': -0.0209, 'ci_lo': -0.0425, 'ci_hi': -0.0005, 'ci_includes_0': False}
+{'task': 'TF_Reason', 'model': 'MACRO', 'contrast': 'F16-Q4_K_M', 'mean_diff': -0.0043, 'ci_lo': -0.0343, 'ci_hi': 0.0263, 'ci_includes_0': True}
+== baselines ==
+{'task': 'TF_Surface', 'baseline': 'majority(F)', 'quality': 0.4, 'mal': 0.0, 'q_ok': 0.4, 'n': 40}
+{'task': 'TF_Mid', 'baseline': 'always_empty_list', 'quality': 0.65, 'mal': 0.0, 'q_ok': 0.65, 'n': 40}
+{'task': 'TF_Reason', 'baseline': 'name_overlap_heuristic', 'quality': 0.2563, 'mal': 0.0, 'q_ok': 0.2563, 'n': 40}
+== misconfig MACRO ==
+{'task': 'TF_Mid', 'model': 'MACRO', 'stack': 'raw_prompt', 'mal_lenient_unique': 0.4875, 'q_lenient_unique': 0.0063, 'qok_lenient_unique': 0.0192, 'mal_legacy_greedy': 0.65, 'q_legacy_greedy': 0.0, 'qok_legacy_greedy': 0.0}
+{'task': 'TF_Mid', 'model': 'MACRO', 'stack': 'string_aligned_256', 'mal_lenient_unique': 0.2125, 'q_lenient_unique': 0.025, 'qok_lenient_unique': 0.0256, 'mal_legacy_greedy': 0.2125, 'q_legacy_greedy': 0.025, 'qok_legacy_greedy': 0.0256}
+{'task': 'TF_Mid', 'model': 'MACRO', 'stack': 'aligned_v2', 'mal_lenient_unique': 0.0188, 'q_lenient_unique': 0.0312, 'qok_lenient_unique': 0.0322, 'mal_legacy_greedy': 0.1375, 'q_legacy_greedy': 0.025, 'qok_legacy_greedy': 0.0256}
+{'task': 'TF_Reason', 'model': 'MACRO', 'stack': 'raw_prompt', 'mal_lenient_unique': 0.5625, 'q_lenient_unique': 0.1163, 'qok_lenient_unique': 0.2697, 'mal_legacy_greedy': 0.5875, 'q_legacy_greedy': 0.1139, 'qok_legacy_greedy': 0.284}
+{'task': 'TF_Reason', 'model': 'MACRO', 'stack': 'string_aligned_256', 'mal_lenient_unique': 0.2562, 'q_lenient_unique': 0.2074, 'qok_lenient_unique': 0.2983, 'mal_legacy_greedy': 0.2562, 'q_legacy_greedy': 0.2074, 'qok_legacy_greedy': 0.2983}
+{'task': 'TF_Reason', 'model': 'MACRO', 'stack': 'aligned_v2', 'mal_lenient_unique': 0.15, 'q_lenient_unique': 0.2345, 'qok_lenient_unique': 0.2853, 'mal_legacy_greedy': 0.15, 'q_legacy_greedy': 0.2345, 'qok_legacy_greedy': 0.2853}
+== fp16 caps (nonzero hits) ==
+{'task': 'TF_Mid', 'model': 'llama31_8b_instruct', 'max_new_tokens': 128, 'cap_hits': 34, 'n': 40, 'mal_frozen': 0.825, 'quality_frozen': 0.0}
+{'task': 'TF_Mid', 'model': 'mistral_7b_instruct', 'max_new_tokens': 128, 'cap_hits': 1, 'n': 40, 'mal_frozen': 0.025, 'quality_frozen': 0.025}
+{'task': 'TF_Reason', 'model': 'llama31_8b_instruct', 'max_new_tokens': 256, 'cap_hits': 9, 'n': 40, 'mal_frozen': 0.7, 'quality_frozen': 0.1073}
+{'task': 'TF_Reason', 'model': 'mistral_7b_instruct', 'max_new_tokens': 256, 'cap_hits': 5, 'n': 40, 'mal_frozen': 0.275, 'quality_frozen': 0.243}
+llama_cpp_python 0.3.8

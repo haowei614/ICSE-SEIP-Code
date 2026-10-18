@@ -1,0 +1,74 @@
+# Pilot configuration (PART 11/13). Validates the METHODOLOGY on a small sample.
+# This is NOT the full factorial. Freeze before running; archive with results.
+#
+# Blockers before a REAL pilot run (all must clear):
+#   1. Datasets: locked 2026-09-05 under data/ (promise_nfr, damir_pure, trace_etour).
+#   2. Inference path installed: llama-cpp-python (Metal) + GGUF files, OR switch
+#      backend to `transformers` (fp16/bf16 only -- not a quant study).
+# Until then, only `--dry-run` (mock) and the unit tests run.
+
+measurement_basis: A            # labeled public datasets; cloud = upper ref only
+seed: 20260830
+sampling:
+  size_per_task: 40             # 30-50 target; stratified by gold label where available
+  seed: 20260830
+  stratified: true
+
+hardware_profile: m3pro_pilot   # see config/hardware.yaml (Apple M3 Pro / Metal)
+output_dir: results/pilot
+
+# ---- Pilot model: ONE medium local model first (add a 2nd only if already local).
+models:
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    hf: Qwen/Qwen2.5-7B-Instruct
+    revision: null                       # TODO: pin exact commit before lock
+    gguf_repo: bartowski/Qwen2.5-7B-Instruct-GGUF   # VERIFY
+    gguf_path: null                      # TODO: local path to the GGUF for each precision
+    highest_feasible_precision: FP16     # 7B fp16 ~15GB fits 36GB unified memory
+    infeasible_reason: null
+
+# ---- Precision ladder for the pilot: local reference + Q4 (+ Q8 optional).
+quantization: [Q8_0, Q4_K_M]     # add Q6_K in the full study
+reference_precision: FP16        # within-model retention denominator
+
+# ---- Cloud reference: upper bound ONLY (never ground truth). Optional in pilot.
+cloud_reference:
+  id: cloud_frontier_ref
+  endpoint_env: CLOUD_REF_ENDPOINT
+  key_env: CLOUD_REF_API_KEY
+  enabled: false                 # off by default in the pilot
+
+# ---- Task families (surface -> reasoning). Dataset dirs live under data/.
+tasks:
+  - id: TF_Surface
+    name: nfr_classification
+    kind: classification
+    dataset: promise_nfr           # Zenodo 268542; see data/SOURCES.md
+    long_context: false
+  - id: TF_Mid
+    name: ambiguity_defect_detection
+    kind: span_detection
+    dataset: damir_pure            # DAMIR-PURE (Figshare); anaphoric ambiguity spans
+    long_context: false
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour           # eTour gold links (FTLR/CoEST mirror)
+    long_context: true
+
+# ---- Frozen decoding (reproducibility only; deterministic). ----
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 512            # smaller than full study for a fast pilot
+  seed: 20260830
+
+reproducibility:
+  repeats_per_cell: 1            # pilot; raise to measure latency variance later
+  n_ctx: 8192
+  n_batch: 512
+
+# Run TF_Reason first so Pillar-2 coding can start on the hardest column early.
+run_order: [TF_Reason, TF_Surface, TF_Mid]

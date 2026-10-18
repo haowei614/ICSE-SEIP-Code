@@ -1,0 +1,226 @@
+[
+  {
+    "case_id": "W1-005",
+    "task": "TF_Mid",
+    "item_id": "damir-90",
+    "model": "llama31_8b_instruct",
+    "quant": "FP16",
+    "gold_label": "ambiguous",
+    "gold": [
+      {
+        "start": 195,
+        "end": 201,
+        "label": "anaphoric_ambiguity",
+        "pronoun": "itself"
+      }
+    ],
+    "ref": {
+      "gold_spans": [
+        {
+          "start": 195,
+          "end": 201,
+          "label": "anaphoric_ambiguity",
+          "pronoun": "itself"
+        }
+      ],
+      "gold_label": "ambiguous"
+    },
+    "extracted": [],
+    "quality": 0.0,
+    "detail": {
+      "tp": 0,
+      "pred": [],
+      "pred_n": 0,
+      "gold_n": 1,
+      "malformed": false,
+      "span_f1": 0.0,
+      "decision": 0.0,
+      "combined": 0.0,
+      "legacy_quality": 0.0
+    },
+    "raw": "Here's a Python solution using the spaCy library to perform part-of-speech tagging and named entity recognition, and then identifying the anaphoric ambiguity:\n\n```python\nimport spacy\nimport json\n\n# Load the English language model\nnlp = spacy.load(\"en_core_web_sm\")\n\ndef detect_anaphoric_ambiguity(text):\n    # Process the text\n    doc = nlp(text)\n\n    # Initialize the result list\n    result = []\n\n    # Iterate over the tokens\n    for i, token in enumerate(doc):\n        # Check if the token is a pronoun\n        if token.pos_ ==",
+    "raw_len": 530
+  },
+  {
+    "case_id": "W2-015",
+    "task": "TF_Reason",
+    "item_id": "UC8",
+    "model": "qwen25_7b_instruct",
+    "quant": "Q6_K",
+    "gold_label": null,
+    "gold": [
+      "BeanRefreshmentPoint.java",
+      "ControlData.java",
+      "DBRefreshmentPoint.java",
+      "IRefreshmentPointAgencyManager.java",
+      "RefreshmentPointAgencyManager.java"
+    ],
+    "ref": {
+      "source": "Use case name: ModifyDataRefreshmentPointAgency \nDescription: Edit the data pertaining to a designated point of rest. \nParticipating Actor: initialization Agency Operator \nEntry Operator conditions: The agency has logged. \nFlow of events User System: \n1. View a list of points of rest as a result of the use case SearchRefreshmentPoint, it selects an active and functional data changes. \n2 Upload data from the point of rest and displays the form of change. \n3 Change data in the form and submit. \n4 Verify the data entered in form and asks for confirmation of the transaction. Where the data is invalid or insufficient, the system activates the use case Errored. \n5 Confirm the operation. \n6. Stores the modified data of the point of rest. \nExit conditions: The system has been reporting the information required by the point of rest. \nOperator Agency cancels the operation. \nInterruption of the connection to the server ETOUR. \nQuality requirements:\nThe system requirements blocks of input controls in the form once we receive confirmation of the change to avoid multiple submissions before the end of the operation.",
+      "gold_target_ids": [
+        "BeanRefreshmentPoint.java",
+        "ControlData.java",
+        "DBRefreshmentPoint.java",
+        "IRefreshmentPointAgencyManager.java",
+        "RefreshmentPointAgencyManager.java"
+      ]
+    },
+    "extracted": [
+      "RefreshmentPointAgencyManager.java",
+      "AdvertisementManager.java",
+      "DBRefreshmentPoint.java",
+      "DBRefreshmentPointOperator.java",
+      "RefreshmentPointCommonManager.java"
+    ],
+    "quality": 0.4000000000000001,
+    "detail": {
+      "tp": 2,
+      "pred": [
+        "AdvertisementManager.java",
+        "DBRefreshmentPoint.java",
+        "DBRefreshmentPointOperator.java",
+        "RefreshmentPointAgencyManager.java",
+        "RefreshmentPointCommonManager.java"
+      ],
+      "pred_n": 5,
+      "gold_n": 5,
+      "malformed": false
+    },
+    "raw": " \n- RefreshmentPointAgencyManager.java:1234 implements ModifyDataRefreshmentPointAgency\n- AdvertisementManager.java:5678 implements ModifyDataRefreshmentPointAgency\n- DBRefreshmentPoint.java:9101 implements ModifyDataRefreshmentPointAgency\n- DBRefreshmentPointOperator.java:112131 implements ModifyDataRefreshmentPointAgency\n- RefreshmentPointCommonManager.java:141516 implements ModifyDataRefreshmentPointAgency\n\n[\n    \"RefreshmentPointAgencyManager.java\",\n    \"AdvertisementManager.java\",\n    \"DBRefreshmentPoint.java\",\n    \"DBRefreshmentPointOperator.java\",\n    \"RefreshmentPointCommonManager.java\"\n] Based on the provided use case and the trace links, the target Java files that implement the source use case \"ModifyDataRefreshmentPointAgency\" are:\n\n[\n    \"RefreshmentPointAgencyManager.java\",\n    \"AdvertisementManager.java\",\n    \"DBRefreshmentPoint.java\",\n    \"DBRefreshmentPointOperator.java\",\n    \"RefreshmentPointCommonManager.java\"\n]",
+    "raw_len": 943
+  },
+  {
+    "case_id": "W2-029",
+    "task": "TF_Mid",
+    "item_id": "damir-48",
+    "model": "qwen25_7b_instruct",
+    "quant": "Q6_K",
+    "gold_label": "unambiguous",
+    "gold": [],
+    "ref": {
+      "gold_spans": [],
+      "gold_label": "unambiguous"
+    },
+    "extracted": [],
+    "quality": 1.0,
+    "detail": {
+      "tp": 0,
+      "pred": [],
+      "pred_n": 0,
+      "gold_n": 0,
+      "malformed": false,
+      "span_f1": 1.0,
+      "decision": 1.0,
+      "combined": 1.0,
+      "legacy_quality": 1.0
+    },
+    "raw": " [{\"start\": 12, \"end\": 14, \"text\": \"speed\"}, {\"start\": 21, \"end\": 24, \"text\": \"speed\"}, {\"start\": 35, \"end\": 38, \"text\": \"train\"}]\n[]\nThe requirement does not contain any pronouns with anaphoric ambiguity. Therefore, the output is an empty list. [] is returned. No other spans are relevant to anaphoric ambiguity in this context. {\"start\": 12, \"end\": 14, \"label\": \"anaphoric_ambiguity\"} would be incorrect as \"it\" is not present in the requirement. {\"start\": 35, \"end\": 38, \"label\": \"anaphoric_ambiguity\"} would also be incorrect as \"its\" refers clearly to \"train\". Thus, the correct output is: [].\n```json\n[]\n```",
+    "raw_len": 613
+  },
+  {
+    "case_id": "W2-043",
+    "task": "TF_Mid",
+    "item_id": "damir-13",
+    "model": "llama31_8b_instruct",
+    "quant": "Q6_K",
+    "gold_label": "unambiguous",
+    "gold": [],
+    "ref": {
+      "gold_spans": [],
+      "gold_label": "unambiguous"
+    },
+    "extracted": [
+      {
+        "start": 15,
+        "end": 16,
+        "label": "anaphoric_ambiguity"
+      }
+    ],
+    "quality": 0.0,
+    "detail": {
+      "tp": 0,
+      "pred": [
+        "(15, 16, 'anaphoric_ambiguity')"
+      ],
+      "pred_n": 1,
+      "gold_n": 0,
+      "malformed": false,
+      "span_f1": 0.0,
+      "decision": 0.0,
+      "combined": 0.0,
+      "legacy_quality": 0.0
+    },
+    "raw": " \n- \"An entry must be selected before it is duplicated\" : [0, 12]\n- \"The user can delete an existing entry by selecting it and then by clicking delete entry\" : [13, 63]\n\nPronouns: \n- \"it\" : [15, 16]\n- \"it\" : [41, 42]\n\nAnaphoric Ambiguity: \n- \"it\" at [15, 16] is ambiguous because \"it\" can refer to either \"An entry must be be selected before it is duplicated\" or \"The user can delete an existing entry by selecting it and then by clicking delete entry\".\n\nJSON Output:\n[\n  {\"start\": 15, \"end\": 16, \"label\": \"anaphoric_ambiguity\"}\n]\n\nNote: The output only contains the pronoun at offset 15, 16 because it is the only one that is ambiguous. The pronoun at offset 41, 42 is not ambiguous because its antecedent is clear (i.e., \"The user can delete an existing entry by selecting it and then by clicking delete entry\"). \n\n```python\nimport json\n\ndef detect_anaphoric_ambiguity(text, spans, pronouns):\n    \"\"\"\n",
+    "raw_len": 903
+  },
+  {
+    "case_id": "W1-016",
+    "task": "TF_Mid",
+    "item_id": "damir-31",
+    "model": "mistral_7b_instruct",
+    "quant": "FP16",
+    "gold_label": "unambiguous",
+    "gold": [],
+    "ref": {
+      "gold_spans": [],
+      "gold_label": "unambiguous"
+    },
+    "extracted": [
+      {
+        "start": 54,
+        "end": 56
+      }
+    ],
+    "quality": 0.0,
+    "detail": {
+      "tp": 0,
+      "pred": [
+        "(54, 56, '')"
+      ],
+      "pred_n": 1,
+      "gold_n": 0,
+      "malformed": false,
+      "span_f1": 0.0,
+      "decision": 0.0,
+      "combined": 0.0,
+      "legacy_quality": 0.0
+    },
+    "raw": "[\n  {\n    \"start\": 54,\n    \"end\": 56\n  }\n]",
+    "raw_len": 42
+  },
+  {
+    "case_id": "W1-044",
+    "task": "TF_Mid",
+    "item_id": "damir-13",
+    "model": "mistral_7b_instruct",
+    "quant": "FP16",
+    "gold_label": "unambiguous",
+    "gold": [],
+    "ref": {
+      "gold_spans": [],
+      "gold_label": "unambiguous"
+    },
+    "extracted": [
+      {
+        "start": 34,
+        "end": 40
+      }
+    ],
+    "quality": 0.0,
+    "detail": {
+      "tp": 0,
+      "pred": [
+        "(34, 40, '')"
+      ],
+      "pred_n": 1,
+      "gold_n": 0,
+      "malformed": false,
+      "span_f1": 0.0,
+      "decision": 0.0,
+      "combined": 0.0,
+      "legacy_quality": 0.0
+    },
+    "raw": "[\n  {\n    \"start\": 34,\n    \"end\": 40\n  }\n]",
+    "raw_len": 42
+  }
+]

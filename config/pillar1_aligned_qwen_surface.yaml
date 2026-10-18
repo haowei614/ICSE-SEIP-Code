@@ -1,0 +1,53 @@
+# Aligned Qwen TF-Surface ladder: F16 + Q8/Q6/Q4. Chat template on.
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_f16_gguf_aligned
+
+models:
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    hf: Qwen/Qwen2.5-7B-Instruct
+    gguf_by_precision:
+      F16: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-f16.gguf
+      Q8_0: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-Q8_0.gguf
+      Q6_K: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-Q6_K.gguf
+      Q4_K_M: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-Q4_K_M.gguf
+
+quantization: [F16, Q8_0, Q6_K, Q4_K_M]
+reference_precision: null
+
+tasks:
+  - id: TF_Surface
+    name: nfr_classification
+    kind: classification
+    dataset: promise_nfr
+    long_context: false
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: true
+  enable_thinking: false
+  use_grammar: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  n_ctx: 8192
+  n_batch: 512
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 8192
+  n_batch: 512
+
+run_order: [TF_Surface]

@@ -1,0 +1,63 @@
+# Pillar 1 Q6_K ladder: 4 models × 3 tasks (completes Q8/Q6/Q4 set with prior runs)
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_quant
+
+models:
+  - id: qwen25_7b_instruct
+    gguf_by_precision:
+      Q6_K: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-Q6_K.gguf
+  - id: mistral_7b_instruct
+    gguf_by_precision:
+      Q6_K: /workspace/models/gguf/mistral_7b_instruct/Mistral-7B-Instruct-v0.3-Q6_K.gguf
+  - id: llama31_8b_instruct
+    gguf_by_precision:
+      Q6_K: /workspace/models/gguf/llama31_8b_instruct/Meta-Llama-3.1-8B-Instruct-Q6_K.gguf
+  - id: gemma2_9b_it
+    gguf_by_precision:
+      Q6_K: /workspace/models/gguf/gemma2_9b_it/gemma-2-9b-it-Q6_K.gguf
+
+quantization: [Q6_K]
+reference_precision: null
+
+cloud_reference:
+  enabled: false
+
+tasks:
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour
+    long_context: true
+  - id: TF_Surface
+    name: nfr_classification
+    kind: classification
+    dataset: promise_nfr
+    long_context: false
+  - id: TF_Mid
+    name: ambiguity_defect_detection
+    kind: span_detection
+    dataset: damir_pure
+    long_context: false
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: false
+  enable_thinking: false
+  seed: 20260905
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 8192
+  n_batch: 512
+
+run_order: [TF_Reason, TF_Surface, TF_Mid]

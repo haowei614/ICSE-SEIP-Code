@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+._*
+analysis/out/
+data/_downloads/
+results/dry_run/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+.env
+.env.*

@@ -1,0 +1,58 @@
+# Hardware envelope for the pilot machine (auto-detected 2026-08-30).
+# This is the PILOT host. The full study may later run on a separate CUDA box;
+# if so, add a second hardware profile rather than editing this one.
+#
+# NOTE: This is Apple Silicon (Metal/MPS), NOT CUDA. Two consequences:
+#   1. "VRAM" is UNIFIED memory shared with the OS (36 GB total), not a discrete
+#      GPU pool. Peak-memory must be measured via MPS allocator (transformers
+#      backend) or process RSS / Metal (llama.cpp Metal backend) -- see backends.py.
+#   2. torch.cuda.* peak-VRAM does NOT work here; use torch.mps.* instead.
+
+profile_id: m3pro_pilot
+detected_on: "2026-08-30"
+
+machine:
+  model: "Mac15,6 (MacBook Pro)"
+  soc: "Apple M3 Pro"
+  arch: arm64
+  os: "macOS 15.7.7 (24G720)"
+
+compute:
+  cpu_cores: 12            # hw.ncpu
+  gpu_cores: 18            # Apple integrated GPU
+  accelerator: metal3      # Metal 3 / MPS
+  cuda: null               # not applicable on Apple Silicon
+  unified_memory_gb: 36    # hw.memsize = 38654705664 bytes; shared CPU+GPU
+
+runtime:
+  python: "3.13.12"        # miniforge, arm64
+  torch: "2.10.0"          # MPS available and built
+  mps_available: true
+  transformers: "5.3.0"
+  # Not installed on the pilot host yet:
+  llama_cpp_python: null   # OPEN: `pip install llama-cpp-python` (Metal build) if using GGUF
+  llama_cpp_commit: null   # OPEN: pin once installed
+  vllm: null               # not usable on Apple Silicon
+
+# Inference-path decision for the pilot (OPEN -- pick one before running real data):
+#   A) transformers + MPS: works with installed torch/transformers TODAY; loads HF
+#      safetensors; peak memory via torch.mps.driver_allocated_memory(). Quantization
+#      via bitsandbytes is NOT supported on MPS, so the "quant ladder" for this path is
+#      limited (fp16/bf16 only). Good for a capability check, weak for quant study.
+#   B) llama.cpp (Metal) via llama-cpp-python + GGUF: gives the real Q4/Q6/Q8 ladder
+#      (the study's whole point), but must be installed and VRAM measurement is via
+#      process RSS / Metal (OPEN). RECOMMENDED for the quantization study.
+inference_path: llama_cpp_metal   # RECOMMENDED; requires install (OPEN)
+
+# Serving defaults for this host (safe starting points; tune during pilot).
+serving:
+  n_gpu_layers: -1         # offload all layers to Metal
+  n_ctx: 8192              # raise only if the Reason task needs it (watch memory)
+  n_batch: 512
+  threads: 10              # leave headroom on 12 cores
+  # Leave ~6-8 GB for the OS; treat ~28-30 GB as the practical model+KV ceiling.
+  practical_memory_ceiling_gb: 28
+
+peak_memory_method:
+  transformers_mps: "torch.mps.driver_allocated_memory()"
+  llama_cpp_metal: "OPEN: process RSS delta or Metal allocated; torch.cuda does NOT apply"

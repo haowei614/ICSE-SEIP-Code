@@ -1,0 +1,82 @@
+# Pillar 1 quant: 4 models × Q8_0 + Q4_K_M × TF_Surface + TF_Mid
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_quant
+
+models:
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    gguf_by_precision:
+      Q8_0: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-Q8_0.gguf
+      Q4_K_M: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-Q4_K_M.gguf
+    highest_feasible_precision: FP16
+  - id: mistral_7b_instruct
+    name: Mistral-7B-Instruct-v0.3
+    gguf_by_precision:
+      Q8_0: /workspace/models/gguf/mistral_7b_instruct/Mistral-7B-Instruct-v0.3-Q8_0.gguf
+      Q4_K_M: /workspace/models/gguf/mistral_7b_instruct/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf
+    highest_feasible_precision: FP16
+  - id: llama31_8b_instruct
+    name: Llama-3.1-8B-Instruct
+    gguf_by_precision:
+      Q8_0: /workspace/models/gguf/llama31_8b_instruct/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+      Q4_K_M: /workspace/models/gguf/llama31_8b_instruct/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
+    highest_feasible_precision: FP16
+  - id: gemma2_9b_it
+    name: Gemma-2-9B-it
+    gguf_by_precision:
+      Q8_0: /workspace/models/gguf/gemma2_9b_it/gemma-2-9b-it-Q8_0.gguf
+      Q4_K_M: /workspace/models/gguf/gemma2_9b_it/gemma-2-9b-it-Q4_K_M.gguf
+    highest_feasible_precision: FP16
+
+quantization: [Q8_0, Q4_K_M]
+reference_precision: null
+
+cloud_reference:
+  id: cloud_frontier_ref
+  endpoint_env: CLOUD_REF_ENDPOINT
+  key_env: CLOUD_REF_API_KEY
+  enabled: false
+
+tasks:
+  - id: TF_Surface
+    name: nfr_classification
+    kind: classification
+    dataset: promise_nfr
+    long_context: false
+  - id: TF_Mid
+    name: ambiguity_defect_detection
+    kind: span_detection
+    dataset: damir_pure
+    long_context: false
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 128
+  max_input_tokens: 8192
+  use_chat_template: false
+  enable_thinking: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  n_ctx: 8192
+  n_batch: 512
+  hardware_platform: aisin-repair-0 / rke2-w2 / RTX 4090 24GB
+  gpu_model: NVIDIA GeForce RTX 4090
+  gpu_vram_gb: 24
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 8192
+  n_batch: 512
+
+run_order: [TF_Surface, TF_Mid]

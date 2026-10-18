@@ -1,0 +1,75 @@
+# Cloud frontier upper bound (Basis A labeled metrics; never ground truth).
+# Same prompts / sampling / decoding envelope as local Pillar-1 cells.
+#
+# Run (from replication/):
+#   export ANTHROPIC_API_KEY=...   # or OPENAI_API_KEY if provider=openai
+#   python -m src.run_experiments \
+#     --config config/pillar1_cloud_ref.yaml \
+#     --backend cloud \
+#     --data-root data \
+#     --out-dir results/pillar1_cloud
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: cloud_api
+output_dir: results/pillar1_cloud
+
+models:
+  - id: claude_sonnet_45
+    name: Claude Sonnet 4.5
+    provider: anthropic
+    api_model: claude-sonnet-4-5
+    key_env: ANTHROPIC_API_KEY
+    highest_feasible_precision: CLOUD
+    infeasible_reason: null
+
+quantization: []
+reference_precision: CLOUD
+
+cloud_reference:
+  id: cloud_frontier_ref
+  provider: anthropic
+  api_model: claude-sonnet-4-5
+  key_env: ANTHROPIC_API_KEY
+  enabled: true
+  role: upper_bound_only   # never Basis B yardstick; never ground truth
+
+tasks:
+  - id: TF_Surface
+    name: nfr_classification
+    kind: classification
+    dataset: promise_nfr
+    long_context: false
+  - id: TF_Mid
+    name: anaphoric_span_detection
+    kind: span_detection
+    dataset: damir_pure
+    long_context: false
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour
+    long_context: true
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: false
+  enable_thinking: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  hardware_platform: Anthropic Messages API
+  gpu_model: n/a
+  gpu_vram_gb: n/a
+  prompt_version: p3
+
+run_order: [TF_Reason, TF_Surface, TF_Mid]

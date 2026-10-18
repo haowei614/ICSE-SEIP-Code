@@ -1,0 +1,67 @@
+# Aligned Reason Q8/Q6/Q4 for Mistral, Llama, Gemma.
+# Catalog is the filename list locked to existing F16 Reason prompt hashes.
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_quant_aligned
+
+models:
+  - id: mistral_7b_instruct
+    name: Mistral-7B-Instruct-v0.3
+    hf: mistralai/Mistral-7B-Instruct-v0.3
+    gguf_by_precision:
+      Q8_0: /workspace/models/gguf/mistral_7b_instruct/Mistral-7B-Instruct-v0.3-Q8_0.gguf
+      Q6_K: /workspace/models/gguf/mistral_7b_instruct/Mistral-7B-Instruct-v0.3-Q6_K.gguf
+      Q4_K_M: /workspace/models/gguf/mistral_7b_instruct/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf
+  - id: llama31_8b_instruct
+    name: Llama-3.1-8B-Instruct
+    hf: meta-llama/Llama-3.1-8B-Instruct
+    gguf_by_precision:
+      Q8_0: /workspace/models/gguf/llama31_8b_instruct/Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+      Q6_K: /workspace/models/gguf/llama31_8b_instruct/Meta-Llama-3.1-8B-Instruct-Q6_K.gguf
+      Q4_K_M: /workspace/models/gguf/llama31_8b_instruct/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
+  - id: gemma2_9b_it
+    name: Gemma-2-9B-it
+    hf: google/gemma-2-9b-it
+    gguf_by_precision:
+      Q8_0: /workspace/models/gguf/gemma2_9b_it/gemma-2-9b-it-Q8_0.gguf
+      Q6_K: /workspace/models/gguf/gemma2_9b_it/gemma-2-9b-it-Q6_K.gguf
+      Q4_K_M: /workspace/models/gguf/gemma2_9b_it/gemma-2-9b-it-Q4_K_M.gguf
+
+quantization: [Q8_0, Q6_K, Q4_K_M]
+reference_precision: null
+
+tasks:
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour_locked
+    long_context: true
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: true
+  enable_thinking: false
+  use_grammar: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  n_ctx: 8192
+  n_batch: 512
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 8192
+  n_batch: 512
+
+run_order: [TF_Reason]

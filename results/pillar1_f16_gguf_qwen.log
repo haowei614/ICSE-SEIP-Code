@@ -1,0 +1,8 @@
+llama_init_from_model: n_ctx_per_seq (8192) < n_ctx_train (32768) -- the full capacity of the model will not be utilized
+[run] experiment_id=20260916T095613-3a255322 backend=llama_cpp dry_run=False basis=A
+[run] order=['TF_Reason', 'TF_Mid', 'TF_Surface'] precisions=['F16'] reps=1 models=['qwen25_7b_instruct']
+[load] backend=llama_cpp model=qwen25_7b_instruct precision=F16
+[ok] wrote results/pillar1_f16_gguf/TF_Reason__qwen25_7b_instruct__F16.jsonl
+[ok] wrote results/pillar1_f16_gguf/TF_Mid__qwen25_7b_instruct__F16.jsonl
+[ok] wrote results/pillar1_f16_gguf/TF_Surface__qwen25_7b_instruct__F16.jsonl
+[done] experiment_id=20260916T095613-3a255322 records=120

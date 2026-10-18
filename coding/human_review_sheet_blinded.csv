@@ -1,0 +1,65 @@
+case_id,task_id,item_id,wave,reviewer,semantically_incorrect,c1_flagged,c2_flagged,c3_flagged,review_seconds,order_index,notes
+W2-040,TF_Surface,p14-601,W2,R1-SE,1,0,0,1,72,1,C2: F for message-board content looks fine. C3: unambiguity fail—LF vs F both defensible for 'first 150 characters' presentation.
+W1-014,TF_Mid,damir-24,W1,R1-SE,1,0,1,1,58,2,"C2: checked offsets—not pronouns ('te',' ('). C3: unambiguity fail."
+W2-014,TF_Surface,p4-160,W2,R1-SE,1,0,0,0,58,3,C2: interfacing apps → F reads OK. C3: claim checkable as functional interaction; pass.
+W2-039,TF_Surface,p6-345,W2,R1-SE,1,0,0,1,75,4,C2: SE for 'privileged users' looks plausible. C3: verifiability fail—viewing schedules is not a security control as written.
+W1-048,TF_Reason,UC49,W1,R1-SE,1,0,0,1,70,5,C2: Tourist managers for favorites look thematic. C3: traceability thin—no preference/bookmark artifacts.
+W1-024,TF_Reason,UC50,W1,R1-SE,1,0,0,0,65,6,C2: Tourist+Feedback+Site fits visited-sites story. C3: pass at skim depth.
+W1-042,TF_Surface,p6-307,W1,R1-SE,1,0,1,1,55,7,"C2: 'without changing code' is maintainability cue, not scalability—reject SC. C3: same."
+W2-018,TF_Surface,p4-160,W2,R1-SE,1,0,0,0,60,8,C2: same interface req as W2-014; F OK. C3: pass.
+W1-039,TF_Mid,damir-75,W1,R1-SE,1,0,1,1,60,9,C2: spans 'reg'/'unc' are not pronouns. C3: same.
+W1-001,TF_Reason,UC57,W1,R1-SE,1,0,0,0,45,10,C2: AdvancedSearch/Search/StandardSearch name-match looks solid. C3: pass.
+W1-023,TF_Surface,p4-176,W1,R1-SE,1,0,0,1,70,11,C2: audit trail as F looks OK in 60s. C3: unambiguity—could be legal/compliance vs functional logging.
+W2-006,TF_Reason,UC43,W2,R1-SE,1,0,1,1,72,12,C2: AdvertisementRefreshmentPointManager odd for ModifyRefreshmentPoint—escalate. C3: traceability noise.
+W2-038,TF_Surface,p8-375,W2,R1-SE,1,0,1,1,48,13,"C2: 'under 5 minutes' is timing/performance, not usability—flag. C3: same."
+W1-032,TF_Reason,UC52,W1,R1-SE,1,0,0,0,60,14,C2: Preference+Tourist for delete bookmark looks OK. C3: pass.
+W1-036,TF_Surface,p6-348,W1,R1-SE,1,0,0,0,50,15,C2: intuitive UI → US looks correct. C3: pass (no gold conflict visible).
+W1-044,TF_Mid,damir-13,W1,R1-SE,1,0,1,1,55,16,C2: span object missing label; slice not a clean pronoun. C3: schema/unambiguity fail.
+W1-004,TF_Reason,UC13,W1,R1-SE,1,0,1,1,68,17,C2: only Tourist.java/AgencyManager for activate/deactivate—suspiciously thin. C3: traceability incomplete.
+W2-016,TF_Reason,UC2,W2,R1-SE,1,0,0,0,70,18,C2: rich CulturalHeritage* set looks complete. C3: pass.
+W1-043,TF_Surface,p13-582,W1,R1-SE,1,0,0,0,55,19,C2: point-and-click → LF looks fine. C3: pass.
+W1-013,TF_Surface,p8-399,W1,R1-SE,1,0,1,1,52,20,"C2: buffering/latency is performance, not operational—flag O. C3: same."
+W2-050,TF_Surface,p6-278,W2,R1-SE,1,0,0,1,68,21,C2: separate-machine DBMS → SC somewhat OK. C3: verifiability—deployment topology ≠ scalability metric.
+W2-025,TF_Reason,UC43,W2,R1-SE,1,0,0,0,58,22,C2: RefreshmentPoint* trio looks coherent. C3: pass.
+W2-002,TF_Surface,p5-206,W2,R1-SE,1,0,0,0,50,23,C2: existing hardware/environments → PO looks OK. C3: pass.
+W1-028,TF_Reason,UC36,W1,R1-SE,1,0,0,0,48,24,C2: Authentication.java for LoginError looks right. C3: pass.
+W2-048,TF_Surface,p1-21,W2,R1-SE,1,0,1,1,65,25,C2: model debates F vs LF—escalate as untrustworthy. C3: unambiguity fail.
+W2-027,TF_Mid,damir-31,W2,R1-SE,1,0,1,1,52,26,C2: span hits 'UR' not 'it'. C3: same.
+W2-052,TF_Surface,p6-348,W2,R1-SE,1,0,0,0,62,27,C2: US for intuitive UI OK; trailing few-shot noise ignored. C3: pass.
+W2-036,TF_Mid,damir-9,W2,R1-SE,1,0,1,1,56,28,C2: spans ' na'/'evi' nonsense. C3: same.
+W1-010,TF_Reason,UC57,W1,R1-SE,1,0,1,1,75,29,"C2: Advertisement* flood for AdvancedSearch—overlink, untrustworthy. C3: traceability fail."
+W2-030,TF_Reason,UC43,W2,R1-SE,1,0,1,1,70,30,C2: Advertisement* + AgencyManager mix for ModifyRefreshmentPoint—flag. C3: same.
+W1-026,TF_Reason,UC14,W1,R1-SE,1,0,0,0,62,31,C2: Tourist search/manager set looks OK. C3: pass.
+W1-011,TF_Reason,UC58,W1,R1-SE,1,0,0,0,65,32,C2: CardBC/CardPR + Tourist* for ViewSiteCard looks plausible. C3: pass.
+W2-040,TF_Surface,p14-601,W2,R2-RE,1,0,0,0,55,1,C2: F for message board OK. C3: accept F; no escalate.
+W1-014,TF_Mid,damir-24,W1,R2-RE,1,0,1,1,55,2,C2: offsets not pronouns. C3: same.
+W2-014,TF_Surface,p4-160,W2,R2-RE,1,0,0,0,52,3,C2: F OK. C3: pass.
+W2-039,TF_Surface,p6-345,W2,R2-RE,1,0,0,0,58,4,C2: privileged→SE looks fine at skim. C3: pass (uncertain: SE vs F).
+W1-048,TF_Reason,UC49,W1,R2-RE,1,0,0,0,55,5,C2: Tourist managers for favorites OK. C3: pass.
+W1-024,TF_Reason,UC50,W1,R2-RE,1,0,0,0,58,6,C2: Feedback+Site for visited sites OK. C3: pass.
+W1-042,TF_Surface,p6-307,W1,R2-RE,1,0,0,1,65,7,C2: SC for configurable/DBMS integration acceptable. C3: unambiguity—MN also fits 'without code change'.
+W2-018,TF_Surface,p4-160,W2,R2-RE,1,0,0,0,50,8,C2: F OK. C3: pass.
+W1-039,TF_Mid,damir-75,W1,R2-RE,1,0,1,1,58,9,C2: 'reg'/'unc' bogus. C3: same.
+W1-001,TF_Reason,UC57,W1,R2-RE,1,0,0,0,40,10,C2: Search* name-match OK. C3: pass.
+W1-023,TF_Surface,p4-176,W1,R2-RE,1,0,0,0,55,11,C2: F for audit history OK. C3: pass.
+W2-006,TF_Reason,UC43,W2,R2-RE,1,0,0,1,68,12,C2: Refreshment managers look thematic. C3: traceability—Advertisement* file is odd.
+W2-038,TF_Surface,p8-375,W2,R2-RE,1,0,1,1,45,13,"C2: under-5-min is PE cue, not US—flag. C3: same."
+W1-032,TF_Reason,UC52,W1,R2-RE,1,0,0,0,55,14,C2: Preference files OK. C3: pass.
+W1-036,TF_Surface,p6-348,W1,R2-RE,1,0,0,0,42,15,C2: US for intuitive UI OK. C3: pass.
+W1-044,TF_Mid,damir-13,W1,R2-RE,1,0,1,1,50,16,C2: missing label + bad span. C3: same.
+W1-004,TF_Reason,UC13,W1,R2-RE,1,0,0,0,55,17,C2: Tourist/AgencyManager for activate OK at skim. C3: pass.
+W2-016,TF_Reason,UC2,W2,R2-RE,1,0,0,0,60,18,C2: CulturalHeritage set looks complete. C3: pass.
+W1-043,TF_Surface,p13-582,W1,R2-RE,1,0,0,0,48,19,C2: LF for point-and-click OK. C3: pass.
+W1-013,TF_Surface,p8-399,W1,R2-RE,1,0,1,1,50,20,C2: latency/buffering ≠ O—flag. C3: same.
+W2-050,TF_Surface,p6-278,W2,R2-RE,1,0,0,0,55,21,C2: SC for multi-machine DBMS OK enough. C3: pass.
+W2-025,TF_Reason,UC43,W2,R2-RE,1,0,0,0,52,22,C2: RefreshmentPoint trio OK. C3: pass.
+W2-002,TF_Surface,p5-206,W2,R2-RE,1,0,0,0,45,23,C2: PO OK. C3: pass.
+W1-028,TF_Reason,UC36,W1,R2-RE,1,0,0,0,42,24,C2: Authentication for login error OK. C3: pass.
+W2-048,TF_Surface,p1-21,W2,R2-RE,1,0,0,1,70,25,C2: LF for display OK at skim. C3: unambiguity—model itself hedges F vs LF.
+W2-027,TF_Mid,damir-31,W2,R2-RE,1,0,1,1,48,26,C2: 'UR' not pronoun. C3: same.
+W2-052,TF_Surface,p6-348,W2,R2-RE,1,0,0,0,60,27,C2: US OK; ignore trailing examples. C3: pass.
+W2-036,TF_Mid,damir-9,W2,R2-RE,1,0,1,1,52,28,C2: nonsense spans. C3: same.
+W1-010,TF_Reason,UC57,W1,R2-RE,1,0,1,1,70,29,C2: too many Advertisement* for AdvancedSearch—escalate. C3: same.
+W2-030,TF_Reason,UC43,W2,R2-RE,1,0,0,1,65,30,C2: Refreshment-related names OK. C3: Advertisement* + AgencyManager weakens traceability.
+W1-026,TF_Reason,UC14,W1,R2-RE,1,0,0,0,55,31,C2: Tourist search set OK. C3: pass.
+W1-011,TF_Reason,UC58,W1,R2-RE,1,0,0,0,58,32,C2: Card* + Tourist OK. C3: pass.

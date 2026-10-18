@@ -1,0 +1,1 @@
+Raw eTour files live at data/_downloads/ftlr/datasets/eTour/

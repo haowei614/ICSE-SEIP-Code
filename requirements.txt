@@ -1,0 +1,11 @@
+# Core (harness + analysis). Pin exact versions at run time for reproducibility.
+pyyaml>=6.0
+numpy>=1.26
+pandas>=2.1
+scikit-learn>=1.4          # cohen_kappa_score, metrics
+matplotlib>=3.8            # figures F1/F2/F4
+
+# Optional backends — install the one matching your hardware:
+# llama-cpp-python>=0.2.90   # GGUF K-quant local serving (Q4_K_M / Q6_K / Q8_0)
+# transformers>=4.44         # HF checkpoints (+ bitsandbytes for INT8/INT4)
+# vllm>=0.5                  # high-throughput GPU serving

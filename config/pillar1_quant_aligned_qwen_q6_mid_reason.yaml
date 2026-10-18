@@ -1,0 +1,56 @@
+# Aligned Q6 for the two Qwen Mid/Reason cells missing from pillar1_quant_aligned.
+# Chat template matches transformers FP16. Do not use as a raw-prompt run.
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_quant_aligned
+
+models:
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    hf: Qwen/Qwen2.5-7B-Instruct
+    gguf_by_precision:
+      Q6_K: /workspace/models/gguf/qwen25_7b_instruct/Qwen2.5-7B-Instruct-Q6_K.gguf
+
+quantization: [Q6_K]
+reference_precision: null
+
+tasks:
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour
+    long_context: true
+  - id: TF_Mid
+    name: anaphoric_span_detection
+    kind: span_detection
+    dataset: damir_pure
+    long_context: false
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: true
+  enable_thinking: false
+  use_grammar: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  n_ctx: 8192
+  n_batch: 512
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 8192
+  n_batch: 512
+
+run_order: [TF_Reason, TF_Mid]

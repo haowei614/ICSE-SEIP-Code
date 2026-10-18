@@ -1,0 +1,99 @@
+# Same-stack F16 GGUF control (llama.cpp) to disentangle bit-width vs serving stack.
+# Compare F16 (llama.cpp) vs Q8/Q6/Q4 (llama.cpp) for stack-held quant effects,
+# and F16 (llama.cpp) vs FP16 (transformers) for stack effects at matched precision.
+#
+# Weight source: convert the SAME HF trees used for transformers FP16
+#   (scripts/convert_hf_to_gguf_f16.sh). Do not substitute third-party F32 GGUFs
+#   (will not fit 24GB) or Q8-f16 hybrids.
+#
+# VRAM (RTX 4090 24GB, n_ctx=8192): 7–8B F16 fits; Gemma-2-9B F16 is tight.
+#
+# Server:
+#   LLAMA_CPP_DIR=... ./scripts/convert_hf_to_gguf_f16.sh all
+#   # optional Qwen-only bartowski shortcut:
+#   python scripts/download_gguf.py --model qwen25_7b_instruct --precisions F16
+#   python -m src.run_experiments \
+#     --config config/pillar1_f16_gguf.yaml \
+#     --backend llama_cpp --data-root data --out-dir results/pillar1_f16_gguf
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_f16_gguf
+
+models:
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    gguf_by_precision:
+      F16: /workspace/models/gguf/qwen25_7b_instruct/qwen25_7b_instruct-f16.gguf
+    highest_feasible_precision: F16
+  - id: mistral_7b_instruct
+    name: Mistral-7B-Instruct-v0.3
+    gguf_by_precision:
+      F16: /workspace/models/gguf/mistral_7b_instruct/mistral_7b_instruct-f16.gguf
+    highest_feasible_precision: F16
+  - id: llama31_8b_instruct
+    name: Llama-3.1-8B-Instruct
+    gguf_by_precision:
+      F16: /workspace/models/gguf/llama31_8b_instruct/llama31_8b_instruct-f16.gguf
+    highest_feasible_precision: F16
+  - id: gemma2_9b_it
+    name: Gemma-2-9B-it
+    gguf_by_precision:
+      F16: /workspace/models/gguf/gemma2_9b_it/gemma2_9b_it-f16.gguf
+    highest_feasible_precision: F16
+    # May OOM on 24GB with n_ctx=8192; log and continue if so.
+
+quantization: []
+reference_precision: F16
+
+cloud_reference:
+  id: cloud_frontier_ref
+  enabled: false
+
+tasks:
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour
+    long_context: true
+  - id: TF_Mid
+    name: anaphoric_span_detection
+    kind: span_detection
+    dataset: damir_pure
+    long_context: false
+  - id: TF_Surface
+    name: nfr_classification
+    kind: classification
+    dataset: promise_nfr
+    long_context: false
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: false
+  enable_thinking: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  n_ctx: 8192
+  n_batch: 512
+  hardware_platform: aisin-repair-0 / rke2-w2 / RTX 4090 24GB
+  gpu_model: NVIDIA GeForce RTX 4090
+  gpu_vram_gb: 24
+  note: F16 GGUF converted from same HF trees as transformers FP16
+
+serving:
+  n_gpu_layers: -1
+  n_ctx: 8192
+  n_batch: 512
+
+run_order: [TF_Reason, TF_Mid, TF_Surface]

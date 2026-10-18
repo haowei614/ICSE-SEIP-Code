@@ -1,0 +1,4 @@
+task,baseline,quality,mal,q_ok,n
+TF_Surface,majority(F),0.4,0.0,0.4,40
+TF_Mid,always_empty_list,0.65,0.0,0.65,40
+TF_Reason,name_overlap_heuristic,0.2563,0.0,0.2563,40

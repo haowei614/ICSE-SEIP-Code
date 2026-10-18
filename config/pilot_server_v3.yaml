@@ -1,0 +1,62 @@
+# Full Surface+Mid re-pilot after p3 prompts + DAMIR rematerialize (2026-09-07).
+# TF_Reason unchanged from pilot v2 (prompt/catalog already fixed).
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pilot_server_v3
+
+models:
+  - id: qwen3_8b
+    name: Qwen3-8B
+    hf: /workspace/models/Qwen3-8B
+    revision: null
+    gguf_repo: null
+    gguf_path: null
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+
+quantization: []
+reference_precision: FP16
+
+cloud_reference:
+  id: cloud_frontier_ref
+  endpoint_env: CLOUD_REF_ENDPOINT
+  key_env: CLOUD_REF_API_KEY
+  enabled: false
+
+tasks:
+  - id: TF_Surface
+    name: nfr_classification
+    kind: classification
+    dataset: promise_nfr
+    long_context: false
+  - id: TF_Mid
+    name: ambiguity_defect_detection
+    kind: span_detection
+    dataset: damir_pure
+    long_context: false
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 128
+  max_input_tokens: 8192
+  use_chat_template: true
+  enable_thinking: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  n_ctx: 32768
+  n_batch: 512
+  hardware_platform: aisin-repair-0 / rke2-w2 / RTX 4090 24GB
+  gpu_model: NVIDIA GeForce RTX 4090
+  gpu_vram_gb: 24
+
+run_order: [TF_Surface, TF_Mid]

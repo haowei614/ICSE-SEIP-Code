@@ -1,0 +1,134 @@
+# Experiment configuration. Identities are CANDIDATES pending lock (see paper §3).
+# Freeze this file before real runs and archive it in results/final/.
+
+# ---- OPEN DECISION: one basis for ALL task families (A or B). No mixing. ----
+measurement_basis: A        # A = labeled public datasets (cloud = upper ref only)
+                            # B = differential vs same cloud frontier reference
+
+seed: 20260824
+
+# ---- Local models (LOCKED 2026-09-07 for Pillar 1 on RTX 4090 24GB) ----
+# highest_feasible_precision: per-model LOCAL reference used as the retention
+# denominator (T3). Default FP16; if VRAM cannot host full precision for a model
+# under `hardware`, set the highest feasible level here and fill infeasible_reason.
+# Weights live on ephemeral /workspace/models (PVC ~6G free — too small for HF).
+models:
+  - id: llama31_8b_instruct
+    name: Llama-3.1-8B-Instruct
+    hf: /workspace/models/Llama-3.1-8B-Instruct
+    hf_id: meta-llama/Llama-3.1-8B-Instruct
+    revision: null                  # pin after first successful download
+    gguf_repo: bartowski/Meta-Llama-3.1-8B-Instruct-GGUF
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+    gated: true                     # needs HF token + license accept
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    hf: /workspace/models/Qwen2.5-7B-Instruct
+    hf_id: Qwen/Qwen2.5-7B-Instruct
+    revision: null
+    gguf_repo: bartowski/Qwen2.5-7B-Instruct-GGUF
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+    gated: false
+  - id: mistral_7b_instruct
+    name: Mistral-7B-Instruct-v0.3
+    hf: /workspace/models/Mistral-7B-Instruct-v0.3
+    hf_id: mistralai/Mistral-7B-Instruct-v0.3
+    revision: null
+    gguf_repo: bartowski/Mistral-7B-Instruct-v0.3-GGUF
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+    gated: false
+  - id: gemma2_9b_it
+    name: Gemma-2-9B-it
+    hf: /workspace/models/Gemma-2-9B-it
+    hf_id: google/gemma-2-9b-it
+    revision: null
+    gguf_repo: bartowski/gemma-2-9b-it-GGUF
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+    gated: true                     # needs HF token + license accept
+
+# ---- Quantization levels (llama.cpp K-quant; highest-precision local reference) ----
+# Precision ladder per model: reference_precision -> Q8_0 -> Q6_K -> Q4_K_M.
+# reference_precision is the DEFAULT highest-precision local reference (retention
+# denominator); per-model overrides live in models[].highest_feasible_precision.
+quantization: [Q4_K_M, Q6_K, Q8_0]
+reference_precision: FP16   # BF16 acceptable where native; document choice
+
+# ---- Cloud frontier reference: upper bound ONLY (Basis A); never ground truth ----
+cloud_reference:
+  id: cloud_frontier_ref
+  provider: anthropic          # or openai
+  api_model: claude-sonnet-4-5
+  endpoint_env: CLOUD_REF_ENDPOINT   # optional; OpenAI-compatible base_url
+  key_env: ANTHROPIC_API_KEY
+  enabled: true                # executed via config/pillar1_cloud_ref.yaml
+  role: upper_bound_only
+
+# ---- Task families spanning surface -> reasoning axis ----
+tasks:
+  - id: TF_Surface
+    kind: classification
+    dataset: promise_nfr        # Zenodo 268542 PROMISE NFR
+    long_context: false
+  - id: TF_Mid
+    kind: span_detection        # ambiguity/defect detection, clause extraction
+    dataset: damir_pure         # DAMIR-PURE anaphoric ambiguity (PURE subset)
+    long_context: false
+  - id: TF_Reason
+    kind: trace_link            # long-context cross-artifact reasoning; RUN FIRST
+    dataset: trace_etour        # eTour req→code gold links
+    long_context: true
+
+# ---- Frozen decoding controls (reproducibility ONLY; not tuned for scores) ----
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null            # unused unless set
+  max_new_tokens: 1024
+  seed: 20260824
+
+# ---- Reproducibility record (T4). Freeze before main runs; archive with results.
+#      null = must be filled once hardware/checkpoints are locked (do NOT invent).
+reproducibility:
+  runtime: transformers_fp16_and_llama_cpp_cuda
+  llama_cpp_python: "0.3.8"
+  llama_cpp_commit: null                 # underlying llama.cpp commit bundled by wheel; not separately pinned
+  hardware_platform: aisin-repair-0 / rke2-w2
+  gpu_model: NVIDIA GeForce RTX 4090
+  gpu_vram_gb: 24
+  cpu: null                              # K8s worker; not logged by harness
+  system_ram_gb: null
+  n_gpu_layers: -1
+  cpu_offload: none
+  n_ctx: 8192
+  n_batch: 512
+  system_prompt: none
+  repeats_per_cell: 1
+  warmup: one_model_unload_between_models
+  cache_policy: no_cross_item_kv_reuse_as_warmup
+  timeout_s: optional_cli
+  oom_handling: skip_and_log
+  malformed_output: count_as_failure
+  latency:
+    end_to_end: true
+    ttft: false
+    throughput_tok_s: false
+  peak_vram_method: cuda_max_memory_allocated
+  token_count_method: backend_usage_completion_tokens
+  prompt_version: p3
+  gguf_source: bartowski-*-GGUF
+  hf_revision_pin: deferred_camera_ready
+
+# ---- Pre-registered boundary detection (T2). Lock BEFORE inspecting aggregates.
+boundary_detection:
+  method: segmented_regression+changepoint
+  min_segment_points: null       # TODO: pre-register
+  n_bootstrap: null              # TODO: pre-register (e.g. 1000)
+  alpha: null                    # TODO: pre-register (e.g. 0.05)
+  cliff_criterion: null          # TODO: pre-register exact discontinuity rule
+
+# ---- Scheduling: hard reasoning column first so coding can start early ----
+run_order: [TF_Reason, TF_Surface, TF_Mid]

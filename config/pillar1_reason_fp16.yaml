@@ -1,0 +1,73 @@
+# Pillar 1 FP16 reference — TF_Reason first (feeds Pillar 2 coding).
+# One model at a time (harness unloads between cells). Weights on /workspace.
+measurement_basis: A
+seed: 20260905
+sampling:
+  size_per_task: 40
+  seed: 20260905
+  stratified: true
+
+hardware_profile: rtx4090_aisin_repair
+output_dir: results/pillar1_fp16
+
+models:
+  - id: qwen25_7b_instruct
+    name: Qwen2.5-7B-Instruct
+    hf: /workspace/models/Qwen2.5-7B-Instruct
+    revision: null
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+  - id: mistral_7b_instruct
+    name: Mistral-7B-Instruct-v0.3
+    hf: /workspace/models/Mistral-7B-Instruct-v0.3
+    revision: null
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+  - id: llama31_8b_instruct
+    name: Llama-3.1-8B-Instruct
+    hf: /workspace/models/Llama-3.1-8B-Instruct
+    revision: null
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+  - id: gemma2_9b_it
+    name: Gemma-2-9B-it
+    hf: /workspace/models/Gemma-2-9B-it
+    revision: null
+    highest_feasible_precision: FP16
+    infeasible_reason: null
+
+quantization: []
+reference_precision: FP16
+
+cloud_reference:
+  id: cloud_frontier_ref
+  endpoint_env: CLOUD_REF_ENDPOINT
+  key_env: CLOUD_REF_API_KEY
+  enabled: false
+
+tasks:
+  - id: TF_Reason
+    name: trace_link_recovery
+    kind: trace_link
+    dataset: trace_etour
+    long_context: true
+
+decoding:
+  temperature: 0.0
+  top_p: 1.0
+  top_k: null
+  max_new_tokens: 256
+  max_input_tokens: 8192
+  use_chat_template: true
+  enable_thinking: false
+  seed: 20260905
+
+reproducibility:
+  repeats_per_cell: 1
+  n_ctx: 32768
+  n_batch: 512
+  hardware_platform: aisin-repair-0 / rke2-w2 / RTX 4090 24GB
+  gpu_model: NVIDIA GeForce RTX 4090
+  gpu_vram_gb: 24
+
+run_order: [TF_Reason]
